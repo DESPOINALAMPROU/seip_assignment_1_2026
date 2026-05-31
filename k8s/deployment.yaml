@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: echo-api
-          image: ghcr.io/DESPOINALAMPROU/echo-api:latest
+          image: ghcr.io/despoinalamprou/echo-api:latest
           ports:
             - containerPort: 3000
  
