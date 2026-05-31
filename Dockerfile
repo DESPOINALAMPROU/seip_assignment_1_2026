@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN nmp install --omit=dev
 
 #Lastly, copy the rest of the source code
-COPY ..
+COPY . .
 
 #Declare that the application is listening on port 3000
 EXPOSE 3000
