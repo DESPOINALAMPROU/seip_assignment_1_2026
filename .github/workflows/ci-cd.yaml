@@ -1,0 +1,31 @@
+name: Build & Push Docker Image to GHCR
+#Trigger only on a push to the main branch
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      #Download the repo code into the machine (like an automated "git clone")
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+ 
+      #Connect to GHCR
+      - name: Authenticate to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          #Temporary "key" for each workflow (secret token)
+          password: ${{ secrets.GITHUB_TOKEN }}
+ 
+      #Build Docker Image & Push it on GHCR
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/DESPOINALAMPROU/echo-api:latest

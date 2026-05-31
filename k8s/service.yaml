@@ -1,0 +1,18 @@
+#Receives traffic and directs it to containers
+apiVersion: v1
+kind: Service
+metadata:
+  name: echo-api-service
+spec:
+  #ClusterIP: accessible only inside the cluster
+  type: ClusterIP
+ 
+  #Selector finds pods labeled as app: echo-api
+  #Match label in deployment.yaml
+  selector:
+    app: echo-api
+ 
+  ports:
+    - protocol: TCP
+      port: 80          #Service receives traffic inside the cluster
+      targetPort: 3000  #The container listens

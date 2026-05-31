@@ -1,0 +1,72 @@
+#Orchestrates the application using the image pulled from GHCR
+#Self healing purposes. Set how the application runs in Kubernetes
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo-api-deployment
+spec:
+  #3 copies (pods) to run simultaneously
+  replicas: 3
+  selector:
+    matchLabels:
+      app: echo-api
+ 
+  template:
+    metadata:
+      # Each pod has the same label that selector looks for
+      labels:
+        app: echo-api
+ 
+    spec:
+      containers:
+        - name: echo-api
+          image: ghcr.io/DESPOINALAMPROU/echo-api:latest
+          ports:
+            - containerPort: 3000
+ 
+          #Enforcing strict resource constraints
+          # Requests: min
+          # Limits: max
+          resources:
+            requests:
+              cpu: "100m"      
+              memory: "128Mi"  
+            limits:
+              cpu: "250m"      
+              memory: "256Mi"  
+ 
+          #Mapping variables
+          env:
+            - name: WELCOME_MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: echo-api-config  
+                  key: WELCOME_MESSAGE
+ 
+            - name: NODE_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: echo-api-config
+                  key: NODE_ENV
+ 
+            - name: API_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: echo-api-secret   
+                  key: API_SECRET_KEY
+ 
+          #Self healing process
+          livenessProbe:
+            httpGet:
+              path: /health   #endpoint in server.js
+              port: 3000
+            initialDelaySeconds: 10   #wait for 10 sec before checking
+            periodSeconds: 15         #check every 15 sec
+ 
+          #Check whether the container is ready to receive traffic
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5    
+            periodSeconds: 10         

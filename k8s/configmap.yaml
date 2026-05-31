@@ -1,0 +1,10 @@
+#Defines the non-sensitive configuration parameters
+#Set environment variables for the container
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: echo-api-config
+data:
+  #Message that endpoint GET / returns
+  WELCOME_MESSAGE: "Welcome to the Software Engineering in Practice Assignment Cluster!"
+  NODE_ENV: "production"
