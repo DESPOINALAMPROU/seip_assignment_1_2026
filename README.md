@@ -60,9 +60,9 @@ Confirm the node is up and ready:
 kubectl get nodes
 ```
 Expected output: 
-| NAME | STATUS | ROLES | AGE | VERSION|
-| :--- | :----- | :---- | :-- | :------|
-| minikube | Ready | control-plane | ... | v1.x.x
+| NAME     | STATUS | ROLES         | AGE | VERSION|
+| :------- | :----- | :-------------| :-- | :------|
+| minikube | Ready  | control-plane | ... | v1.x.x |
 
 The cluster is ready once the status shows "Ready".
 
@@ -87,11 +87,11 @@ Wait for all 3 pods to reach "Running" status:
 kubectl get pods
 ```
 Expected output:
-| NAME | READY | STATUS | RESTARTS | AGE|
-| :--- | :---- | :----- | : ------ | :--|
-| echo-api-deployment-xxxxxxxxx-xxxxx | 1/1 | Running | 0 | 30s
-| echo-api-deployment-xxxxxxxxx-xxxxx | 1/1 | Running | 0 | 30s
-| echo-api-deployment-xxxxxxxxx-xxxxx | 1/1 | Running | 0 | 30s
+| NAME                                | READY | STATUS  | RESTARTS | AGE|
+| :---------------------------------- | :---- | :------ | : ------ | :--|
+| echo-api-deployment-xxxxxxxxx-xxxxx | 1/1   | Running | 0        | 30s|
+| echo-api-deployment-xxxxxxxxx-xxxxx | 1/1   | Running | 0        | 30s|
+| echo-api-deployment-xxxxxxxxx-xxxxx | 1/1   | Running | 0        | 30s|
 
 All 3 pods must show 1/1 under READY before proceeding.
 Kubernetes keeps exactly 3 replicas running at all times — if one crashes,
